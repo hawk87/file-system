@@ -1,8 +1,12 @@
 package com.rtjvm.scala.oop.files
 
+import com.rtjvm.scala.oop.filesystem.FileSystemException
+
 import scala.annotation.tailrec
 
-class Directory(override val parentPath: String, override val name: String, val contents: List[DirEntry])
+class Directory(override val parentPath: String,
+                override val name: String,
+                val contents: List[DirEntry])
   extends DirEntry(parentPath, name) {
 
   def hasEntry(name: String): Boolean = findEntry(name) != null
@@ -33,8 +37,10 @@ class Directory(override val parentPath: String, override val name: String, val 
 
   def asDirectory: Directory = this
 
-  def getType: String = "Directory"
+  def asFile: File =
+    throw new FileSystemException("A directory cannot be converted to a file!")
 
+  def getType: String = "Directory"
 }
 
 object Directory {
