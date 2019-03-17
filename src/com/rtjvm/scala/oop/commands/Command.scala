@@ -11,6 +11,7 @@ object Command {
   val LS = "ls"
   val PWD = "pwd"
   val TOUCH = "touch"
+  val CD = "cd"
 
   def from(input: String): Command = {
     val tokens: Array[String] = input.split(" ")
@@ -26,7 +27,11 @@ object Command {
     } else if (TOUCH.equals(tokens(0))) {
       if (tokens.length < 2) incompleteCommand(TOUCH)
       else new Touch(tokens(1))
-    } else new UnknownCommand
+    } else if (CD.equals(tokens(0))) {
+      if (tokens.length < 2) incompleteCommand(CD)
+      else new Cd(tokens(1))
+    }
+    else new UnknownCommand
   }
 
   def emptyCommand: Command = new Command {
